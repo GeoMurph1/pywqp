@@ -3,7 +3,7 @@ import urllib
 import sys
 import os.path
 import pandas as pd
-from six import StringIO
+import io
 import wqx_mappings
 import xml.etree.ElementTree as et
 
@@ -155,7 +155,7 @@ class RESTClient():
 
         dataframe = None
         if content_type == 'text/csv':
-            dataframe = pd.read_csv(StringIO.StringIO(response.content))
+            dataframe = pd.read_csv(io.BytesIO(response.content))
         elif content_type == 'text/xml' or content_type == 'application_xml':
             mapper = wqx_mappings.WQXMapper()
             dataframe = mapper.make_dataframe_from_http_response(response)
